@@ -1,0 +1,1035 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package neuralnetGUI;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author tosin
+ */
+public class CreateNetDialog extends javax.swing.JDialog {
+
+    //References to mutable data types to be sent back to client
+    private final List<Integer> layers;
+    private final StringBuffer networkName;
+    private String functionName;
+    // max nodes per layer
+    private final int MAX_NODES;
+    // map of strings to parents labels
+    private final Map<String, JLabel> labelMap;
+    // constants
+    private static final int INPUT_ERROR = -1;
+    private static final String DEFAULT_STRING = "None";
+
+    /**
+     * Creates new form NewNetDialog
+     *
+     * @param parent
+     * @param modal
+     * @param layers
+     * @param networkName
+     * @param maxNodesPerLayer
+     */
+    // TODO: have dialog return value instead of just passing it into constructor
+    public CreateNetDialog(java.awt.Frame parent, boolean modal, int maxNodesPerLayer, Map<String, JLabel> labelMap) {
+        super(parent, modal);
+        initComponents();
+
+        if (maxNodesPerLayer < 1) {
+            throw new IllegalArgumentException("Max Nodes Too Small!");
+        }
+
+        this.layers = new ArrayList<>(5);
+        this.networkName = new StringBuffer();
+        this.MAX_NODES = maxNodesPerLayer;
+        this.labelMap = labelMap;
+    }
+    
+    /**
+     * Get the number of nodes per layer
+     * @return 
+     */
+    public List<Integer> getLayers(){
+        return this.layers;
+    }
+    
+    public String getFunctionName(){
+        return this.functionName;
+    }
+    
+    /**
+     * Parse the string for an int. Handle errors appropriately;
+     * @param numNodes
+     * @param name
+     * @return 
+     */
+    private int validateInputs(String numNodes, String name) {
+        // if parsing string for number fails, show message dialog and return
+        if (numNodes == null || name == null) {
+            JOptionPane.showMessageDialog(null, "You did not enter any values",
+                    "Incorrect Input", JOptionPane.WARNING_MESSAGE);
+            return CreateNetDialog.INPUT_ERROR;
+        }
+
+        try {
+            int num = Integer.parseInt(numNodes);
+            // if number not valid, show dialog and return
+            if (num < 1 || num > this.MAX_NODES) {
+                String message = String.
+                        format("Please enter only positive integers greater than %d.",
+                                this.MAX_NODES);
+                JOptionPane.showMessageDialog(null, message, "Incorrect Input", 
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return CreateNetDialog.INPUT_ERROR;
+            }
+            return num;
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter only integers",
+                    "Incorrect Input", JOptionPane.WARNING_MESSAGE);
+            return CreateNetDialog.INPUT_ERROR;
+        }
+    }
+
+    // copy values in instance variables to passed-in lyrNumLabels
+    private void copyToLabels() {
+        JLabel nameLabel = this.labelMap.get("netName");
+        JLabel fuctionLabel = this.labelMap.get("functionName");
+        JLabel oneLabel = this.labelMap.get("layerOne");
+        JLabel twoLabel = this.labelMap.get("layerTwo");
+        JLabel threeLabel = this.labelMap.get("layerThree");
+        JLabel fourLabel = this.labelMap.get("layerFour");
+        JLabel fiveLabel = this.labelMap.get("layerFive");
+
+        final String Default = "None";
+        // create default lyrNumLabels
+        String[] lyrNumLabels = new String[5];
+        for (String label : lyrNumLabels) {
+            label = "None";
+        }
+
+        // no network name, set to default_string
+        if (this.networkName != null) {
+            nameLabel.setText(this.networkName.toString());
+        } else {
+            nameLabel.setText(CreateNetDialog.DEFAULT_STRING);
+        }
+        
+        this.functionName = (String)this.functionComboBox.getSelectedItem();
+        fuctionLabel.setText(this.functionName);
+
+        // for each num in layer copy to lyrNumLabels
+        int i = 0;
+        for (Integer num : layers) {
+            lyrNumLabels[i] = num.toString();
+            i++;
+        }
+
+        oneLabel.setText(lyrNumLabels[0]);
+        twoLabel.setText(lyrNumLabels[1]);
+        threeLabel.setText(lyrNumLabels[2]);
+        fourLabel.setText(lyrNumLabels[3]);
+        fiveLabel.setText(lyrNumLabels[4]);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainDialogPanel = new javax.swing.JPanel();
+        networkNamePanel = new javax.swing.JPanel();
+        networkNameTextField = new javax.swing.JTextField();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        twoLayerPanel = new javax.swing.JPanel();
+        layerOneTextField2 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        layerTwoTextField2 = new javax.swing.JTextField();
+        createTwoLyrButton = new javax.swing.JButton();
+        cancelTwoLyrButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        threeLayerPanel = new javax.swing.JPanel();
+        layerOneTextField3 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        layerTwoTextField3 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        layerThreeTextField3 = new javax.swing.JTextField();
+        createThreeLyrButton = new javax.swing.JButton();
+        cancelThreeLyrButton = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        fourLayerPanel = new javax.swing.JPanel();
+        layerOneTextField4 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        layerTwoTextField4 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        layerThreeTextField4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        layerFourTextField4 = new javax.swing.JTextField();
+        createFourLyrButton = new javax.swing.JButton();
+        cancelFourLyrButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        fiveLayerPanel = new javax.swing.JPanel();
+        layerOneTextField5 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        layerTwoTextField5 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        layerThreeTextField5 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        layerFourTextField5 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        layerFiveTextField5 = new javax.swing.JTextField();
+        createFiveLyrButton = new javax.swing.JButton();
+        cancelFiveLyrButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        functionComboBox = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        networkNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Network Name"));
+
+        networkNameTextField.setText("Network1");
+        networkNameTextField.setMinimumSize(new java.awt.Dimension(0, 0));
+        networkNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                networkNameTextFieldActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout networkNamePanelLayout = new javax.swing.GroupLayout(networkNamePanel);
+        networkNamePanel.setLayout(networkNamePanelLayout);
+        networkNamePanelLayout.setHorizontalGroup(
+            networkNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, networkNamePanelLayout.createSequentialGroup()
+                .addComponent(networkNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        networkNamePanelLayout.setVerticalGroup(
+            networkNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(networkNamePanelLayout.createSequentialGroup()
+                .addComponent(networkNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        twoLayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Number of Nodes per Layer"));
+
+        layerOneTextField2.setText("0");
+        layerOneTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerOneTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Input");
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Second");
+
+        layerTwoTextField2.setText("0");
+        layerTwoTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerTwoTextField2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout twoLayerPanelLayout = new javax.swing.GroupLayout(twoLayerPanel);
+        twoLayerPanel.setLayout(twoLayerPanelLayout);
+        twoLayerPanelLayout.setHorizontalGroup(
+            twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, twoLayerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(layerOneTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(layerTwoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        twoLayerPanelLayout.setVerticalGroup(
+            twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(twoLayerPanelLayout.createSequentialGroup()
+                .addGroup(twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(layerOneTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(twoLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(layerTwoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(109, Short.MAX_VALUE))
+        );
+
+        createTwoLyrButton.setText("Create");
+        createTwoLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createTwoLyrButtonActionPerformed(evt);
+            }
+        });
+
+        cancelTwoLyrButton.setText("Cancel");
+        cancelTwoLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelTwoLyrButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(twoLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(createTwoLyrButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(cancelTwoLyrButton)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(twoLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelTwoLyrButton)
+                    .addComponent(createTwoLyrButton))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Two", jPanel2);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        threeLayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Number of Nodes per Layer"));
+
+        layerOneTextField3.setText("0");
+        layerOneTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerOneTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Input");
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Second");
+
+        layerTwoTextField3.setText("0");
+        layerTwoTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerTwoTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Third");
+
+        layerThreeTextField3.setText("0");
+        layerThreeTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerThreeTextField3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout threeLayerPanelLayout = new javax.swing.GroupLayout(threeLayerPanel);
+        threeLayerPanel.setLayout(threeLayerPanelLayout);
+        threeLayerPanelLayout.setHorizontalGroup(
+            threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, threeLayerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(layerOneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(layerTwoTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(layerThreeTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        threeLayerPanelLayout.setVerticalGroup(
+            threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(threeLayerPanelLayout.createSequentialGroup()
+                .addGroup(threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(layerOneTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(layerTwoTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(threeLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(layerThreeTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(77, Short.MAX_VALUE))
+        );
+
+        createThreeLyrButton.setText("Create");
+        createThreeLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createThreeLyrButtonActionPerformed(evt);
+            }
+        });
+
+        cancelThreeLyrButton.setText("Cancel");
+        cancelThreeLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelThreeLyrButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(threeLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(createThreeLyrButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(cancelThreeLyrButton)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(threeLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelThreeLyrButton)
+                    .addComponent(createThreeLyrButton))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Three", jPanel3);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        fourLayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Number of Nodes per Layer"));
+
+        layerOneTextField4.setText("0");
+        layerOneTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerOneTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Input");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Second");
+
+        layerTwoTextField4.setText("0");
+        layerTwoTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerTwoTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("Third");
+
+        layerThreeTextField4.setText("0");
+        layerThreeTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerThreeTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Fourth");
+
+        layerFourTextField4.setText("0");
+        layerFourTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerFourTextField4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fourLayerPanelLayout = new javax.swing.GroupLayout(fourLayerPanel);
+        fourLayerPanel.setLayout(fourLayerPanelLayout);
+        fourLayerPanelLayout.setHorizontalGroup(
+            fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fourLayerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(layerOneTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(layerTwoTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(layerThreeTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(layerFourTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        fourLayerPanelLayout.setVerticalGroup(
+            fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fourLayerPanelLayout.createSequentialGroup()
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(layerOneTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(layerTwoTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(layerThreeTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fourLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(layerFourTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        createFourLyrButton.setText("Create");
+        createFourLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFourLyrButtonActionPerformed(evt);
+            }
+        });
+
+        cancelFourLyrButton.setText("Cancel");
+        cancelFourLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelFourLyrButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fourLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(createFourLyrButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(cancelFourLyrButton)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(fourLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelFourLyrButton)
+                    .addComponent(createFourLyrButton))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Four", jPanel4);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        fiveLayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Number of Nodes per Layer"));
+
+        layerOneTextField5.setText("0");
+        layerOneTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerOneTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Input");
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Second");
+
+        layerTwoTextField5.setText("0");
+        layerTwoTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerTwoTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Third");
+
+        layerThreeTextField5.setText("0");
+        layerThreeTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerThreeTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Fourth");
+
+        layerFourTextField5.setText("0");
+        layerFourTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerFourTextField5ActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Five");
+
+        layerFiveTextField5.setText("0");
+        layerFiveTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                layerFiveTextField5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fiveLayerPanelLayout = new javax.swing.GroupLayout(fiveLayerPanel);
+        fiveLayerPanel.setLayout(fiveLayerPanelLayout);
+        fiveLayerPanelLayout.setHorizontalGroup(
+            fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fiveLayerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(layerOneTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(layerTwoTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(layerThreeTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(layerFourTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(layerFiveTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        fiveLayerPanelLayout.setVerticalGroup(
+            fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fiveLayerPanelLayout.createSequentialGroup()
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(layerOneTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(layerTwoTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(layerThreeTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(layerFourTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fiveLayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(layerFiveTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        createFiveLyrButton.setText("Create");
+        createFiveLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFiveLyrButtonActionPerformed(evt);
+            }
+        });
+
+        cancelFiveLyrButton.setText("Cancel");
+        cancelFiveLyrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelFiveLyrButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fiveLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(createFiveLyrButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(cancelFiveLyrButton)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(fiveLayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelFiveLyrButton)
+                    .addComponent(createFiveLyrButton))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Five", jPanel5);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Function"));
+
+        functionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sigmoid", "Relu" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(functionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(functionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout mainDialogPanelLayout = new javax.swing.GroupLayout(mainDialogPanel);
+        mainDialogPanel.setLayout(mainDialogPanelLayout);
+        mainDialogPanelLayout.setHorizontalGroup(
+            mainDialogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainDialogPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainDialogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(networkNamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        mainDialogPanelLayout.setVerticalGroup(
+            mainDialogPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainDialogPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(networkNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(220, 220, 220))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainDialogPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainDialogPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void networkNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_networkNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_networkNameTextFieldActionPerformed
+
+    private void layerOneTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerOneTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerOneTextField2ActionPerformed
+
+    private void layerTwoTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerTwoTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerTwoTextField2ActionPerformed
+
+    private void layerOneTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerOneTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerOneTextField3ActionPerformed
+
+    private void layerTwoTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerTwoTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerTwoTextField3ActionPerformed
+
+    private void layerThreeTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerThreeTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerThreeTextField3ActionPerformed
+
+    private void layerOneTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerOneTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerOneTextField4ActionPerformed
+
+    private void layerTwoTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerTwoTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerTwoTextField4ActionPerformed
+
+    private void layerThreeTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerThreeTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerThreeTextField4ActionPerformed
+
+    private void layerFourTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerFourTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerFourTextField4ActionPerformed
+
+    private void layerOneTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerOneTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerOneTextField5ActionPerformed
+
+    private void layerTwoTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerTwoTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerTwoTextField5ActionPerformed
+
+    private void layerThreeTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerThreeTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerThreeTextField5ActionPerformed
+
+    private void layerFourTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerFourTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerFourTextField5ActionPerformed
+
+    private void layerFiveTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_layerFiveTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_layerFiveTextField5ActionPerformed
+
+    private void createTwoLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTwoLyrButtonActionPerformed
+        this.layers.clear();
+        this.networkName.delete(0, this.networkName.length());
+        String name = this.networkNameTextField.getText();
+        String[] nodesPerLayer = new String[2];
+        int[] numNodesPerLayer = new int[2];
+        nodesPerLayer[0] = this.layerOneTextField2.getText();
+        nodesPerLayer[1] = this.layerTwoTextField2.getText();
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            int num = this.validateInputs(nodesPerLayer[i], name);
+            if (num == CreateNetDialog.INPUT_ERROR) {
+                return;
+            }
+            numNodesPerLayer[i] = num;
+        }
+        for (int i = 0; i < 2; i++) {
+            this.layers.add(i, numNodesPerLayer[i]);
+        }
+
+        this.networkName.append(name);
+        this.copyToLabels();
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_createTwoLyrButtonActionPerformed
+
+    private void cancelTwoLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelTwoLyrButtonActionPerformed
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_cancelTwoLyrButtonActionPerformed
+
+    private void createThreeLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createThreeLyrButtonActionPerformed
+        this.layers.clear();
+        this.networkName.delete(0, this.networkName.length());
+        String name = this.networkNameTextField.getText();
+        String[] nodesPerLayer = new String[3];
+        int[] numNodesPerLayer = new int[3];
+        nodesPerLayer[0] = this.layerOneTextField3.getText();
+        nodesPerLayer[1] = this.layerTwoTextField3.getText();
+        nodesPerLayer[2] = this.layerThreeTextField3.getText();
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            int num = this.validateInputs(nodesPerLayer[i], name);
+            if (num == CreateNetDialog.INPUT_ERROR) {
+                return;
+            }
+            numNodesPerLayer[i] = num;
+        }
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            this.layers.add(i, numNodesPerLayer[i]);
+        }
+        this.networkName.append(name);
+        this.copyToLabels();
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_createThreeLyrButtonActionPerformed
+
+    private void cancelThreeLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelThreeLyrButtonActionPerformed
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_cancelThreeLyrButtonActionPerformed
+
+    private void createFourLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFourLyrButtonActionPerformed
+        this.layers.clear();
+        this.networkName.delete(0, this.networkName.length());
+        String name = this.networkNameTextField.getText();
+        String[] nodesPerLayer = new String[4];
+        int[] numNodesPerLayer = new int[4];
+        nodesPerLayer[0] = this.layerOneTextField4.getText();
+        nodesPerLayer[1] = this.layerTwoTextField4.getText();
+        nodesPerLayer[2] = this.layerThreeTextField4.getText();
+        nodesPerLayer[3] = this.layerFourTextField4.getText();
+
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            int num = this.validateInputs(nodesPerLayer[i], name);
+            if (num == CreateNetDialog.INPUT_ERROR) {
+                return;
+            }
+            numNodesPerLayer[i] = num;
+        }
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            this.layers.add(i, numNodesPerLayer[i]);
+        }
+        this.networkName.append(name);
+        this.copyToLabels();
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_createFourLyrButtonActionPerformed
+
+    private void cancelFourLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelFourLyrButtonActionPerformed
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_cancelFourLyrButtonActionPerformed
+
+    private void createFiveLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFiveLyrButtonActionPerformed
+        this.layers.clear();
+        this.networkName.delete(0, this.networkName.length());
+        String name = this.networkNameTextField.getText();
+        String[] nodesPerLayer = new String[5];
+        int[] numNodesPerLayer = new int[5];
+        nodesPerLayer[0] = this.layerOneTextField5.getText();
+        nodesPerLayer[1] = this.layerTwoTextField5.getText();
+        nodesPerLayer[2] = this.layerThreeTextField5.getText();
+        nodesPerLayer[3] = this.layerFourTextField5.getText();
+        nodesPerLayer[4] = this.layerFiveTextField5.getText();
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            int num = this.validateInputs(nodesPerLayer[i], name);
+            if (num == CreateNetDialog.INPUT_ERROR) {
+                return;
+            }
+            numNodesPerLayer[i] = num;
+        }
+        for (int i = 0; i < numNodesPerLayer.length; i++) {
+            this.layers.add(i, numNodesPerLayer[i]);
+        }
+        this.networkName.append(name);
+        this.copyToLabels();
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_createFiveLyrButtonActionPerformed
+
+    private void cancelFiveLyrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelFiveLyrButtonActionPerformed
+        CreateNetDialog.this.dispose();
+    }//GEN-LAST:event_cancelFiveLyrButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CreateNetDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(CreateNetDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(CreateNetDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CreateNetDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                CreateNetDialog dialog = new CreateNetDialog(null,
+                        true, 50, null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelFiveLyrButton;
+    private javax.swing.JButton cancelFourLyrButton;
+    private javax.swing.JButton cancelThreeLyrButton;
+    private javax.swing.JButton cancelTwoLyrButton;
+    private javax.swing.JButton createFiveLyrButton;
+    private javax.swing.JButton createFourLyrButton;
+    private javax.swing.JButton createThreeLyrButton;
+    private javax.swing.JButton createTwoLyrButton;
+    private javax.swing.JPanel fiveLayerPanel;
+    private javax.swing.JPanel fourLayerPanel;
+    private javax.swing.JComboBox<String> functionComboBox;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField layerFiveTextField5;
+    private javax.swing.JTextField layerFourTextField4;
+    private javax.swing.JTextField layerFourTextField5;
+    private javax.swing.JTextField layerOneTextField2;
+    private javax.swing.JTextField layerOneTextField3;
+    private javax.swing.JTextField layerOneTextField4;
+    private javax.swing.JTextField layerOneTextField5;
+    private javax.swing.JTextField layerThreeTextField3;
+    private javax.swing.JTextField layerThreeTextField4;
+    private javax.swing.JTextField layerThreeTextField5;
+    private javax.swing.JTextField layerTwoTextField2;
+    private javax.swing.JTextField layerTwoTextField3;
+    private javax.swing.JTextField layerTwoTextField4;
+    private javax.swing.JTextField layerTwoTextField5;
+    private javax.swing.JPanel mainDialogPanel;
+    private javax.swing.JPanel networkNamePanel;
+    private javax.swing.JTextField networkNameTextField;
+    private javax.swing.JPanel threeLayerPanel;
+    private javax.swing.JPanel twoLayerPanel;
+    // End of variables declaration//GEN-END:variables
+}

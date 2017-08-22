@@ -1,0 +1,100 @@
+COS 583 Project Structure
+
+
+main application gui....
+	enables:	choosing input data set 
+	visualizes: 	data set in batches, input and output.
+	enables: 	changing/setting hyper parameters and network shape
+	visualizes:    view of network
+	enables: 	training of network
+	visualizes:	visualizing backdrop.
+	visualizes: 	choosing different functions
+
+
+There modes then
+Input network training and viz
+
+
+class neural network
+	constructor takes layers list and function…
+
+	can learn and train to some error? or for some iterations….
+	can run iteration
+	can return immutable model that returns output for some input
+	can be fed training data
+	can return model that you can show bprop on...
+	might need to return errors per layer to show layer by layer backdrop
+
+
+Interface function. sigmoid…..
+
+
+Visual net? network particularly for backprop?
+
+Update notes with slide info.
+
+helper objects like layer??
+helper for maybe testing????
+
+mike nielsen website in bookmark very helpful
+python code too.
+
+Citations/Resources:
+http://neuralnetworksanddeeplearning.com/chap1.html
+
+
+Java swing.
+
+java to json for visualization…
+
+so add code maybe in dialog or whatever to build network…. change data information to training information, ability to learn input, percentage, viz from son fie
+
+test for errors
+add tooltips
+
+
+push neural net project to git
+
+check for mismatch between nn and input data
+
+
+
+
+Presentation…..
+
+Show that neural net can learn and help others learn b comparing iteration etc…
+
+characteristics:…
+underlying network package distinct from application, 
+another app can use the package for all this, decoupled.
+
+many features can be tuned and can see effect on accuracy and user provided input
+
+can incrementally train a network 
+
+
+example; 
+
+TestDigit params….. layers: 784, 30, 10
+epochs = 25. eta = 3.0 mbsize 20
+
+Half Adder layers: 2 4 4 2
+epochs = 3000. eta = 10. mbsize 4
+
+Implication  layers: 2 4 4 2 / 1
+epochs: 2500. eta = 10 mbsize 4s
+
+Sine: relu vs sigmoid?
+2 4 4 2 
+epochs: 2000. eta = 5 mbsize = 400
+
+
+future work…..
+more functions
+multiple networks side by side
+visualization, at least showing steps of backdrop…. 
+
+challenges…
+
+
+
